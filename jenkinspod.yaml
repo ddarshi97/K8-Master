@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-pod
+spec:
+  replicas: 1
+  selector:
+   matchLabels:
+     app: jenkins
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: jenkins
+      labels:
+        app: jenkins
+    spec:
+      volumes:
+      - name: "jenkins-data"
+        hostPath:
+          path: "/root/k8efs"
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        env:
+        - name: JENKINS_OPTS
+          value: --prefix=/jenkins
+        volumeMounts:
+        - mountPath: "/var/jenkins_home"
+          name: "jenkins-data"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+spec:
+  selector:
+    app: jenkins
+  ports:
+    - name: jenkins
+      protocol: TCP
+      targetPort: 8080
+      port: 8080

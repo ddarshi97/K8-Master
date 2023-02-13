@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-jenkins
+  namespace: devdarshan
+  labels:
+    app: tomcat
+spec:
+  volumes:
+    - name: "jenkins-data"
+      hostPath:
+        path: "/root/k8efs"
+  containers:
+  - name: mytomcat
+    image: ddarshi97/tomcat:1.1
+    volumeMounts:
+      - mountPath: "/var/jenkins_home"
+        name: "jenkins-data"
+    resources:
+      limits:
+        memory: "250Mi"
+        cpu: "400m"
+      requests:
+        memory: "250Mi"
+        cpu: "400m"

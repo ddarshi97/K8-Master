@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: tomcat
+  namespace: devdarshan
+spec:
+  replicas: 4
+  selector:
+    matchLabels: 
+      app: tomcat
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      name: tomcat-jenkins
+      labels:
+        app: tomcat
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - tomcat
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: mytomcat
+        image: ddarshi97/tomcat:1.2
+        resources:
+          limits:
+            cpu: "1"
+            memory: 256Mi
+          requests:
+            cpu: 500m
+            memory: 128Mi

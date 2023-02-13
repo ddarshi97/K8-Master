@@ -1,0 +1,1000 @@
+   21  net.ipv4.ip_forward = 1
+   22  EOF
+   23  sysctl --system
+   24  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+   25  apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+   26  apt update
+   27  apt install kubelet="1.22.17-00" 
+   28  apt install kubeadm="1.22.17-00"
+   29  apt install kubectl="1.22.17-00"
+   30  cat << EOF > /etc/kubernetes/aws.yaml
+   31  ---
+   32  apiVersion: kubeadm.k8s.io/v1beta3
+   33  kind: ClusterConfiguration
+   34  kubernetesVersion: v1.22.17
+   35  networking:
+   36    serviceSubnet: "10.100.0.0/16"
+   37    podSubnet: "10.244.0.0/16"
+   38  apiServer:
+   39    extraArgs:
+   40      cloud-provider: "aws"
+   41  controllerManager:
+   42    extraArgs:
+   43      cloud-provider: "aws"
+   44  EOF
+   45  kubeadm init --config /etc/kubernetes/aws.yaml
+   46  mkdir -p $HOME/.kube
+   47  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   48  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   49  kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml
+   50  kubectl get nodes
+   51  kubectl get pods
+   52  kubectl get nodes
+   53  kubectl get pods -A
+   54  kubectl get nodes
+   55  kubeclt get nodes
+   56  kubectl get nodes
+   57  kubectl get pods -A
+   58  kubectl get pods -A -owide
+   59  kubectl get pods -n kube-system
+   60  kubectl get ns
+   61  vi myfirstpod.yaml
+   62  ls
+   63  kubectl create -f myfirstpod.yaml 
+   64  kubectl get pods
+   65  kubectl get pods -A
+   66  kubectl get pods -A -owide
+   67  kubectl get pods -owide
+   68  kubectl get nodes
+   69  curl -v 10.244.51.129:8080
+   70  kubectl delete pod tomcat-jenkins
+   71  cat myfirstpod.yaml 
+   72  history
+   73  kubectl get nodes
+   74  kubectl get pods -A
+   75  docker images
+   76  exit
+   77  ls
+   78  kubectl get pods
+   79  kubectl get nodes
+   80  cd /etc/kubernetes/
+   81  ls
+   82  vi aws.yaml 
+   83  cd manifests/
+   84  ls
+   85  vi kube-apiserver.yaml 
+   86  kubectl get nodes
+   87  ls
+   88  cat myfirstpod.yaml 
+   89  vi myfirstpod.yaml 
+   90  kubectl apply -f myfirstpod.yaml 
+   91  vi myfirstpod.yaml 
+   92  kubectl apply -f myfirstpod.yaml 
+   93  vi service.yaml
+   94  vi nodeport.yaml
+   95  vi loadbalancer.yaml
+   96  vi external.yaml
+   97  kubectl apply -f service.yaml 
+   98  kubectl get services
+   99  kubectl get pods -owide
+  100  kubectl get pods -A
+  101  kubectl get services
+  102  curl -v 10.100.189.102
+  103  kubectl delete serivce kubernetes
+  104  kubectl delete kubernetes
+  105  kubectl delete service tomcat-nginx
+  106  kubectl get pods
+  107  kubectl delete tomcat-jenkins
+  108  kubectl delete pods tomcat-jenkins
+  109  kubectl get service
+  110  kubectl get endpoints
+  111  kubectl apply -f myfirstpod.yaml 
+  112  kubectl get pods --show-labels
+  113  kubectl get endpoints
+  114  kubectl apply -f nodeport.yaml 
+  115  kubectl get svc
+  116  kubectl apply -f loadbalancer.yaml 
+  117  kubectl get service
+  118  kubectl delete service tomcat-nodeport
+  119  kubectl get service
+  120  kubectl delete service tomcat-nginx
+  121  kubectl get service
+  122  kubectl get nodes
+  123  kubectl get pods
+  124  ls
+  125  cat service.yaml 
+  126  vi replicaset.yaml
+  127  cat myfirstpod.yaml 
+  128  vi replicaset.yaml 
+  129  kubectl get pods
+  130  kubectl delete pods tomcat-jenkins
+  131  kubectl apply -f replicaset.yaml 
+  132  vi replicaset.yaml 
+  133  kubectl apply -f replicaset.yaml 
+  134  kubectl get pods
+  135  vi replicaset.yaml 
+  136  kubectl apply -f replicaset.yaml 
+  137  kubectl get pods
+  138  kubectl get replicaset
+  139  vi replicaset.yaml 
+  140  kubectl apply -f replicaset.yaml 
+  141  kubectl get replicaset
+  142  kubectl get pods
+  143  kubectl get pods tomcat-fpmm8 -oyaml
+  144  kubectl get pods tocmat-fpmm8 -oyaml
+  145  kubectl get replicaset -oyaml
+  146  kubectl get pods
+  147  kubectl get endpoints
+  148  kubectl delete pods tocmat-fpmm8
+  149  kubectl get pods
+  150  kubectl get pods tocmat-dnv6w -oyaml
+  151  cp replicaset.yaml deployment.yaml
+  152  vi deployment.yaml 
+  153  kubectl get services
+  154  kubectl apply -f loadbalancer.yaml 
+  155  kubectl get services
+  156  vi deployment.yaml 
+  157  kubectl get deployments
+  158  kubectl get deployment
+  159  kubectl get replicaset
+  160  cat myfirstpod.yaml 
+  161  kubectl get service
+  162  kubectl get service tomcat-nginx -oyaml
+  163  exit
+  164  kubectl get nodes
+  165  kubectl get pods -A
+  166  vi namespace.yaml
+  167  kubectl apply -f namespace.yaml 
+  168  kubectl get pods -A
+  169  kubectl get pods -n devdarshan
+  170  kubectl apply -f namespace.yaml --namespace=devdarshan
+  171  kubectl get pods -n devdarshan
+  172  kubectl apply -f myfirstpod.yaml --namespace=devdarshan
+  173  kubectl get pods -n devdarshan
+  174  kubectl delete pods tomcat-jenkins -n devdarshan
+  175  kubectl get pods -n devdarshan
+  176  vi myfirstpod.yaml 
+  177  kubectl apply -f myfirstpod.yaml 
+  178  vi myfirstpod.yaml 
+  179  kubectl apply -f myfirstpod.yaml 
+  180  kubectl get pods
+  181  kubectl get pods -n devdarshan
+  182  kubectl delete pods tomcat-jenkins -n devdarshan
+  183  kubectl get pods -n devdarshan
+  184  kubectl get ns
+  185  kubectl describe devdarshan
+  186  kubectl describe kube-system
+  187  kubectl describe ns devdarshan
+  188  vi resourcequota.yaml
+  189  kubectl apply -f myfirstpod.yaml
+  190  kubectl get ns
+  191  kubectl describe ns devdarshan
+  192  kubectl apply -f namespace.yaml 
+  193  kubectl apply -f resourcequota.yaml 
+  194  kubectl describe ns devdarshan
+  195  cp resourcequota.yaml podlimit.yaml
+  196  vi podlimit.yaml 
+  197  vi deployment.yaml 
+  198  vi podlimit.yaml 
+  199  ls
+  200  kubectl get ns
+  201  kubectl get pods -A
+  202  kubectl get replicaset
+  203  kubectl get deployment
+  204  kubectl delete replicaset tomcat
+  205  kubectl delete pods --all
+  206  kubectl get pods -A
+  207  kubectl get service
+  208  history
+  209  kubectl get replicaset
+  210  vi replicaset.yaml 
+  211  kubectl get deployment
+  212  kubectl get pods -A
+  213  kubectl get replicaset
+  214  kubectl apply -f deployment.yaml 
+  215  kubectl get deployment
+  216  kubectl get pods -A
+  217  kubectl get deployment
+  218  kubectl delete deployment tocmat
+  219  kubectl get replicaset
+  220  kubectl delete replicaset tocmat
+  221  vi replicaset.yaml 
+  222  vi deployment.yaml 
+  223  kubectl get pods
+  224  kubectl get pods -A
+  225  kubectl get ns
+  226  kubectl get pods -n devdarshan
+  227  kubectl get pods -n devdarshan -owide
+  228  curl -v 10.244.51.142:80
+  229  curl -v 10.244.51.142:8080
+  230  kubectl get pods -n devdarshan
+  231  kubectl delete pods tomcat-jenkins -n devdarshan
+  232  kubectl get pods -n devdarshan
+  233  kubectl get pods -A
+  234  ls
+  235  vi loadbalancer.yaml 
+  236  vi myfirstpod.yaml 
+  237  vi namespace.yaml 
+  238  vi deployment.yaml 
+  239  cat deployment.yaml 
+  240  vi deployment.yaml 
+  241  cat deployment.yaml 
+  242  ls
+  243  vi podlimit.yaml 
+  244  vi resourcequota.yaml 
+  245  kubectl apply -f resourcequota.yaml 
+  246  kubectl get resoucequota memory-cpu-quota
+  247  kubectl get pods
+  248  kubectl get pods -A
+  249  kubectl apply -f myfirstpod.yaml 
+  250  kubectl get pods
+  251  kubectl get pods -A
+  252  ls
+  253  kubectl get resource
+  254  kubectl get resourcequota
+  255  kubectl delete resourcequota
+  256  vi resourcequota.yaml 
+  257  kubectl get resoucequota memory-cpu-quota
+  258  vi resourcequota.yaml 
+  259  kubectl apply -f myfirstpod.yaml 
+  260  vi myfirstpod.yaml 
+  261  kubectl get ns
+  262  kubectl describe ns devdarshan
+  263  vi myfirstpod.yaml 
+  264  kubectl delete ns devdarshan
+  265  kubectle create ns devdarshan
+  266  kubectl create ns devdarshan
+  267  kubectl describe ns devdarshan
+  268  kubectl get pods -n devdarshan
+  269  kubectl get pods
+  270  kubectlet pods -A
+  271  kubectl get pods -A
+  272  ls
+  273  kubectl apply -f myfirstpod.yaml 
+  274  kubectl get pods -n devdarshan
+  275  kubectl apply -f resourcequota.yaml 
+  276  kubectl get pods -n devdarshan
+  277  kubectl describe -n devdarshan
+  278  kubectl describe ns devdarshan
+  279  vi deployment.yaml 
+  280  kubectl apply -f deployment.yaml 
+  281  kubectl get pods -n devdarshan
+  282  kubectl get ns -n devdarshan
+  283  kubectl get deployment -n devdarshan
+  284  cat deployment.yaml 
+  285  kubectl get quota -n devdarshan
+  286  kubectl get pods -n devdarshan
+  287  kubectl get replicaset -n devdarshan
+  288  kubectl describe replicaset tomcat-5b47dc8d67-kv4s4 -n devdarshan
+  289  kubectl get replicaset
+  290  kubectl apply -f replicaset.yaml 
+  291  kubectl get pods -n devdarshan
+  292  kubectl get replicaset -n devdarshan
+  293  kubectl get quota -n devdarshan
+  294  kubectl describe ns devdarshan
+  295  vi podlimit.yaml 
+  296  kubectl apply -f podlimit.yaml 
+  297  kubectl get resourequota -n devdarshan
+  298  kubectl get resoucequota -n devdarshan
+  299  kubectl get resourcequota -n devdarshan
+  300  kubectl get pods -n devdarshan
+  301  kubectl delete deployment tomcat -n devdarshan
+  302  kubectl get pods -n devdarshan
+  303  kubectl delete pod tomcat-jenkins
+  304  kubectl delete pod tomcat-jenkins -n devdarshan
+  305  kubectl get pods -n devdarshan
+  306  kubectl apply -f deployment.yaml 
+  307  kubectl get pods -n devdarshan
+  308  kubectl describe replicaset tomcat-5b47dc8d67 -n devdarshan
+  309  kubectl get resourcequota -n devdarshan
+  310  vi resourcequota.yaml 
+  311  kubectl delete resourcequota memory-cpu-quota -n devdarshan
+  312  kubectl delete deployment tomcat -n devdarshan
+  313  kubectl apply -f deployment.yaml 
+  314  kubectl get pods -n devdarshan
+  315  kubectl describe replicaset tomcat-5b47dc8d67 -n devdarshan
+  316  ls
+  317  vi limitrange.yaml
+  318  kubectl apply -f limitrange.yaml 
+  319  kubectl get limitrange -n devdarshan
+  320  kubectl describe ns devdarshan
+  321  kubectl get nodes
+  322  kubectl taint node ip-10-0-0-144.ap-northeast-1.compute.internal colour=red:NoSchedule
+  323  kubectl get pods
+  324  kubectl delete deployment tomcat
+  325  kubectl delete deployment tomcat -n devdarshan
+  326  kubectl get pods
+  327  kubectl delete pods --all
+  328  kubectl get pods
+  329  kubectl delete replicaset tomcat
+  330  kubectl get pods
+  331  kubectl apply -f deployment.yaml 
+  332  kubectl get pods -n -owide
+  333  kubectl get pods -owide
+  334  kubectl get pods -owide -n devdarshan
+  335  vi deployment.yaml 
+  336  kubectl delete -f deployment.yaml 
+  337  kubectl apply -f deployment.yaml 
+  338  kubectl get pods -owide -n devdarshan
+  339  kubectl describe node ip-10-0-0-144.ap-northeast-1.compute.internal
+  340  kubectl describe node ip-10-0-0-200.ap-northeast-1.compute.internal
+  341  kubectl get pods -n devdarshan
+  342  kubectl describe pods tomcat-6554fff5b5-7nj8d -n devdarshan
+  343  kubectl taint node ip-10-0-0-144.ap-northeast-1.compute.internal colour=red:NoSchedule--
+  344  kubectl taint node ip-10-0-0-144.ap-northeast-1.compute.internal colour=red:NoSchedule-
+  345  kubectl get nodes
+  346  vi deployment.yaml 
+  347  kubectl delete -f deployment.yaml 
+  348  kubectl label node ip-10-0-0-144.ap-northeast-1.compute.internal size=large
+  349  vi deployment.yaml 
+  350  kubectl apply -f deployment.yaml 
+  351  kubectl get pods -owide -n devdarshan
+  352  kubectl delete -f deployment.yaml 
+  353  vi deployment.yaml 
+  354  kubectl get nodes
+  355  kubectl label node ip-10-0-0-200.ap-northeast-1.compute.internal size=small
+  356  kubectl delete -f deployment.yaml 
+  357  kubectl apply -f deployment.yaml 
+  358  kubectl get pods -owide -n devdarshan
+  359  vi deployment.yaml 
+  360  kubectl delete -f deployment.yaml 
+  361  kubectl apply -f deployment.yaml 
+  362  kubectl get pods -owide -n devdarshan
+  363  kubectl delete -f deployment.yaml 
+  364  vi deployment.yaml 
+  365  ls
+  366  kubectl get nodes
+  367  kubectl describe ns devdarshan
+  368  kubectl delete -f limitrange.yaml 
+  369  kubectl delete -f resourcequota.yaml 
+  370  kubectl delete -f resourcequota.yaml -n devdarshan
+  371  kubectl delete -f podlimit.yaml 
+  372  kubectl get pods
+  373  kubectl get pods -n devdarshan
+  374  kubectl get pods -A
+  375  vi deployment.yaml 
+  376  kubectl apply -f deployment.yaml 
+  377  kubectl get pods -owide -n devdarshan
+  378  kubectl destroy -f deployment.yaml 
+  379  kubectl delete -f deployment.yaml 
+  380  kubectl get pods -owide -n devdarshan
+  381  vi deployment.yaml 
+  382  kubectl apply -f deployment.yaml 
+  383  vi deployment.yaml 
+  384  kubectl delete -f deployment.yaml 
+  385  kubectl apply -f deployment.yaml 
+  386  kubectl get pods -owide -n devdarshan
+  387  kubectl delete -f deployment.yaml 
+  388  ls
+  389  vi deployment.yaml 
+  390  vi limitrange.yaml 
+  391  vi myfirstpod.yaml 
+  392  vi nodeport.yaml 
+  393  vi replicaset.yaml 
+  394  vi service.yaml 
+  395  vi external.yaml 
+  396  vi loadbalancer.yaml 
+  397  vi namespace.yaml 
+  398  vi podlimit.yaml 
+  399  vi resourcequota.yaml 
+  400  logout
+  401  ls
+  402  cp deployment.yaml podaffinity.yaml
+  403  vi podaffinity.yaml 
+  404  kubectl delete -f deployment.yaml 
+  405  vi podaffinity.yaml 
+  406  kubectl apply -f podaffinity.yaml 
+  407  kubectl get pods
+  408  kubectl get pods -owide -n devdarshan
+  409  vi podaffinity.yaml 
+  410  kubectl delete -f podaffinity.yaml 
+  411  kubectl apply -f podaffinity.yaml 
+  412  kubectl get pods -owide -n devdarshan
+  413  vi podaffinity.yaml 
+  414  kubectl delete -f podaffinity.yaml 
+  415  cp podaffinity.yaml daemonset.yaml
+  416  vi daemonset.yaml 
+  417  kubectl apply -f daemonset.yaml 
+  418  kubectl get pods -owide -n devdarshan
+  419  vi daemonset.yaml 
+  420  kubectl delete -f daemonset.yaml 
+  421  vi myfirstpod.yaml 
+  422  kubectl apply -f myfirstpod.yaml 
+  423  kubectl describe tomcat-jenkins
+  424  kubectl get pods
+  425  kubectl get pods -n dev
+  426  kubectl get pods -n devdarshan
+  427  kubectl describe tomcat-jenkins -n devdarshan
+  428  kubectl describe pods tomcat-jenkins -n devdarshan
+  429  vi myfirstpod.yaml 
+  430  kubectl apply -f myfirstpod.yaml 
+  431  kubectl delete -f myfirstpod.yaml 
+  432  kubectl apply -f myfirstpod.yaml 
+  433  kubectl describe pods tomcat-jenkins -n devdarshan
+  434  vi myfirstpod.yaml 
+  435  kubectl delete -f myfirstpod.yaml 
+  436  kubectl apply -f myfirstpod.yaml 
+  437  kubectl describe pods tomcat-jenkins -n devdarshan
+  438  kubectl delete -f myfirstpod.yaml 
+  439  kubectl get pods -n devdarshan
+  440  kubectl apply -f myfirstpod.yaml 
+  441  kubectl get pods -n devdarshan
+  442  kubectl describe pods tomcat-jenkins -n devdarshan
+  443  kubectl delete -f myfirstpod.yaml 
+  444  vi myfirstpod.yaml 
+  445  kubectl delete -f myfirstpod.yaml 
+  446  kubectl get nodes --show-labels
+  447  logout
+  448  ls
+  449  clear
+  450  kubectl get nodes --show-labels
+  451  vi myfirstpod.yaml 
+  452  kubectl apply -f myfirstpod.yaml 
+  453  kubectl get nodes
+  454  kubectl get pods
+  455  kubectl get pods -owide
+  456  kubectl get pods -owide -n devdarshan
+  457  kubectl describe pods tomcat-jenkins
+  458  vi myfirstpod.yaml 
+  459  kubectl apply -f myfirstpod.yaml 
+  460  kubectl delete -f myfirstpod.yaml 
+  461  kubectl apply -f myfirstpod.yaml 
+  462  kubectl describe pods tomcat-jenkins
+  463  kubectl delete -f myfirstpod.yaml 
+  464  vi myfirstpod.yaml 
+  465  kubectl apply -f myfirstpod.yaml 
+  466  kubectl describe pods tomcat-jenkins -n devdarshan
+  467  vi myfirstpod.yaml 
+  468  kubectl delete -f myfirstpod.yaml 
+  469  kubectl get nodes
+  470  cat /etc/kubernetes/
+  471  cd /etc/kubernetes/
+  472  ls
+  473  cd
+  474  kubectl get nodes --show-labels
+  475  vi myfirstpod.yaml 
+  476  cp myfirstpod.yaml mysecondpod.yaml
+  477  vi my
+  478  rm -rf my
+  479  vi mysecondpod.yaml 
+  480  kubectl apply -f mysecondpod.yaml 
+  481  kubectl get pods
+  482  kubectl get pods -owide
+  483  kubectl delete -f mysecondpod.yaml 
+  484  kubectl get pods -owide
+  485  vi mysecondpod.yaml 
+  486  kubectl apply -f mysecondpod.yaml 
+  487  kubectl get pods -owide
+  488  kubect delele -f deployment.yaml 
+  489  kubectl delele -f deployment.yaml 
+  490  kubectl delete -f deployment.yaml 
+  491  vi deployment.yaml 
+  492  kubectl apply -f deployment.yaml 
+  493  kubect get pods -n devdarshan
+  494  kubectl get pods -n devdarshan
+  495  vi deployment.yaml 
+  496  kubectl delete -f deployment.yaml 
+  497  kubectl apply -f deployment.yaml 
+  498  kubectl get pods -n devdarshan
+  499  vi deployment.yaml 
+  500  kubectl get pods -n devdarshan
+  501  kubectl get nodes
+  502  vi deployment.yaml 
+  503  kubectl delete -f deployment.yaml 
+  504  kubectl get nodes
+  505  kubectl get pods -n devdarshan
+  506  vi deployment.yaml 
+  507  kubectl apply -f deployment.yaml 
+  508  kubectl get pods -n devdarshan
+  509  kubectl exec -it jenkins-5484866f5d-rdbw8 -n devdarshan --
+  510  kubectl exec -it jenkins-5484866f5d-rdbw8 -n devdarshan -- /bin/sh
+  511  vi deployment.yaml 
+  512  kubectl delete -f deployment.yaml 
+  513  vi configmap.yaml
+  514  kubectl apply -f configmap.yaml 
+  515  kubectl get pods
+  516  kubectl get configmap
+  517  vi pod-config.yaml
+  518  kubectl apply -f pod-config.yaml 
+  519  kubectl exec -it configmap-demo-pod -- /bin/sh
+  520  ls
+  521  ls
+  522  mkdir jenkins
+  523  chmod -R 777 jenkins/
+  524  vi mysecondpod.yaml 
+  525  kubectl get pods
+  526  kubectl delete -f mysecondpod.yaml 
+  527  kubectl apply -f mysecondpod.yaml 
+  528  kubectl get pods -owide
+  529  kubectl delete -f mysecondpod.yaml 
+  530  vi mysecondpod.yaml 
+  531  kubectl apply -f mysecondpod.yaml 
+  532  kubectl get pods -owide
+  533  kubectl get nodes --show-labels
+  534  vi mysecondpod.yaml 
+  535  kubectl get pods -owide
+  536  kubectl delete -f mysecondpod.yaml 
+  537  vi mysecondpod.yaml 
+  538  kubectl apply -f mysecondpod.yaml 
+  539  kubectl get pods -owide
+  540  vi mysecondpod.yaml 
+  541  ls
+  542  cd jenkins/
+  543  ls
+  544  cd
+  545  rm -rf jenkins/
+  546  vi deployment.yaml 
+  547  kubectl delete -f mysecondpod.yaml 
+  548  kubectl apply -f deployment.yaml 
+  549  vi deployment.yaml 
+  550  vi mysecondpod.yaml 
+  551  kubectl apply -f deployment.yaml 
+  552  kubectl get pods
+  553  kubectl get pods -n devdarshan
+  554  kubectl exec -it jenkins-665648dd94-c7wbk -- /bin/sh
+  555  kubectl exec -it jenkins-665648dd94-c7wbk -- /bin/sh -n devdarshan
+  556  kubectl exec -it jenkins-665648dd94-c7wbk -n devdarshan -- /bin/sh 
+  557  ls
+  558  vi configmap.yaml 
+  559  kubectl exec -it jenkins-665648dd94-c7wbk -n devdarshan -- /bin/sh 
+  560  kubectl get configmap
+  561  kubectl get pods
+  562  kubectl exec -it configmap-demo-pod -- /bin/sh
+  563  ls
+  564  kubectl get nodes
+  565  kubectl get pods -n devdarshan
+  566  kubectl apply -f mysecondpod.yaml 
+  567  kubectl get pods -n devdarshan
+  568  kubectl get pods
+  569  kubectl get cm
+  570  kubectl apply -f pod-config.yaml 
+  571  kubectl get cm
+  572  kubectl get configmap game-demo -oyaml
+  573  vi secret.yaml
+  574  kubectl apply -f secret.yaml 
+  575  kubectl get secrets
+  576  kubectl get secrets mysecret -oyaml
+  577  echo "MWYyZDFlMmU2N2Rm" 
+  578  echo "MWYyZDFlMmU2N2Rm" | base 64 --decode
+  579  echo "MWYyZDFlMmU2N2Rm" | base64 --dec
+  580  echo "YWRtaW4=" | base64 --decode
+  581  echo "darshan" | base64
+  582  vi secret.yaml 
+  583  kubectl create secret generic db-user-pass     --from-literal=username=admin     --from-literal=password='S!B\*d$zDsb='
+  584  kubectl get secret
+  585  kubectl get secret db-user-pass -oyaml
+  586  vi username.txt
+  587  vi admin.conf
+  588  kubectl create secret generic myfile --from-file=./username.txt --from-file=./admin.conf
+  589  kubectl get secret myfile -oyaml
+  590  echo "VGhpcyBpcyBhIGNvbmZpZyBmaWxlCg==" | base64 --decode
+  591  echo "RGFyc2hhbgpNYWRodXN1ZGhhbgpTdXNobWl0aGEKQW5qaW5hbW1hCg==" | base64 --decode
+  592  vi secret-test-pod.yaml
+  593  kubectl apply -f secret-test-pod.yaml 
+  594  kubectl exec -it secret-test-pod -- /bin/sh
+  595  ls
+  596  grep jenkins *
+  597  vi mysecondpod.yaml 
+  598  vi deployment.yaml 
+  599  exit
+  600  ls
+  601  vi deployment.yaml 
+  602  kubectl get deployment
+  603  kubectl get deployment -n devdarshan
+  604  kubectl apply -f deployment.yaml 
+  605  kubectl get pods
+  606  kubectl get pods -n devdarshan
+  607  vi deployment.yaml 
+  608  kubectl apply -f deployment.yaml 
+  609  kubectl get pods -n devdarshan
+  610  cd /var/
+  611  ls
+  612  cd
+  613  kubectl get pods -n devdarshan -owide
+  614  kubectl exec -it jenkins-595594d978-vxm9g -n devdarshan -- /bin/sh
+  615  vi deployment.yaml 
+  616  kubectl delete -f deployment.yaml 
+  617  kubectl apply -f deployment.yaml 
+  618  kubectl get pods -n devdarshan -owide
+  619  kubectl delete -f deployment.yaml 
+  620  vi deployment.yaml 
+  621  kubectl apply -f deployment.yaml 
+  622  kubectl get pods -n devdarshan -owide
+  623  vi deployment.yaml 
+  624  ls
+  625  cd /root/k8efs
+  626  vi mysecondpod.yaml 
+  627  kubectl delete -f mysecondpod.yaml 
+  628  kubectl get nodes --show-label
+  629  kubectl get nodes --show-labels
+  630  kubectl apply -f mysecondpod.yaml 
+  631  vi mysecondpod.yaml 
+  632  kubectl apply -f mysecondpod.yaml 
+  633  kubectl delete -f mysecondpod.yaml 
+  634  kubectl apply -f mysecondpod.yaml 
+  635  kubectl get pods -owide
+  636  kubectl delete -f mysecondpod.yaml 
+  637  kubectl apply -f mysecondpod.yaml 
+  638  kubectl get pods -owide
+  639  vi mysecondpod.yaml 
+  640  kubectl delete -f mysecondpod.yaml 
+  641  kubectl apply -f mysecondpod.yaml 
+  642  kubectl get pods -owide
+  643  cat mysecondpod.yaml 
+  644  kubectl delete -f mysecondpod.yaml 
+  645  vi deployment.yaml 
+  646  clear
+  647  cat deployment.yaml 
+  648  kubectl apply -f deployment.yaml 
+  649  kubectl get pods -n devdarshan
+  650  ls
+  651  history
+  652  vi secret.yaml 
+  653  vi secret-test-pod.yaml 
+  654  kubectl get pods -n devdarshan
+  655  ls
+  656  vi deployment.yaml 
+  657  kubectl delete -f deployment.yaml 
+  658  kubectl get pods -n devdarshan
+  659  kubectl apply -f deployment.yaml 
+  660  kubectl get pods -n devdarshan
+  661  kubectl delete -f deployment.yaml 
+  662  kubectl apply -f deployment.yaml 
+  663  kubectl get pods -n devdarshan
+  664  kubectl delete -f deployment.yaml 
+  665  kubectl get pods -n devdarshan
+  666  kubectl apply -f deployment.yaml 
+  667  kubectl get pods -n devdarshan
+  668  kubectl delete -f deployment.yaml 
+  669  kubectl get pods
+  670  kubectl get nodes
+  671  ls
+  672  vi deployment.yaml 
+  673  kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.14"
+  674  kubectl get pods 
+  675  kubectl get pods -A
+  676  vi static-pv.yaml
+  677  kubectl apply -f static-pv.yaml 
+  678  vi static-pv.yaml
+  679  kubectl get pv
+  680  kubectl delete -f static-pv.yaml 
+  681  vi static-pv.yaml
+  682  kubectl apply -f static-pv.yaml 
+  683  kubectl get pv
+  684  ls
+  685  vi configmap.yaml 
+  686  vi pod-config.yaml 
+  687  kubectl delete pv static-test-pv
+  688  kubectl get pv
+  689  kubectl get pods
+  690  vi static-pv.yaml 
+  691  kubectl apply -f static-pv.yaml 
+  692  kubectl get pv
+  693  kubectl delete -f static-pv.yaml 
+  694  vi static-pv.yaml 
+  695  kubectl apply -f static-pv.yaml 
+  696  kubectl get pv
+  697  vi static-pvc.yaml
+  698  kubectl delete -f static-pv.yaml 
+  699  vi static-pv.yaml 
+  700  vi storageclass.yaml
+  701  kubectl apply -f storageclass.yaml 
+  702  kubectl get storageclass
+  703  vi static-pv.yaml 
+  704  kubectl delete -f static-pv.yaml 
+  705  kubectl apply -f static-pv.yaml 
+  706  kubectl get pv
+  707  vi storageclass.yaml 
+  708  kubectl get storageclass
+  709  kubectl apply -f storageclass.yaml 
+  710  kubectl delete -f storageclass.yaml 
+  711  kubectl apply -f storageclass.yaml 
+  712  kubectl apply -f static-pv.yaml 
+  713  kubectl delete -f static-pv.yaml 
+  714  kubectl get pv
+  715  kubectl get pods
+  716  kubectl get storageclass
+  717  kubectl get nodes
+  718  kubectl get pods -n devdarshan
+  719  kubectl get nodes
+  720  ls
+  721  kubectl get pods
+  722  kubectl get nodes
+  723  kubectl get pods
+  724  ls
+  725  vi static-pv.yaml 
+  726  kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.14"
+  727  kubectl get pods
+  728  kubectl get pods -A
+  729  vi static-pv.yaml 
+  730  kubectl apply -f static-pv.yaml 
+  731  kubectl get pv
+  732  vi static-pvc.yaml
+  733  kubectl apply -f static-pvc.yaml 
+  734  kubectl get pvc
+  735  vi static-pod.yaml
+  736  kubectl apply -f static-pod.yaml 
+  737  kubectl get pods
+  738  kubectl delete -f static-pod.yaml 
+  739  kubectl get pods
+  740  kubectl delete -f static-pvc.yaml 
+  741  kubectl delete -f static-pv.yaml 
+  742  kubectl get pv
+  743  kubectl get pvc
+  744  kubectl get pods
+  745  ls
+  746  vi storageclass.yaml 
+  747  kubectl get storageclass
+  748  vi storageclass.yaml 
+  749  vi dynamicstorageclass.yaml
+  750  kubectl apply -f dynamicstorageclass.yaml 
+  751  kubectl get storageclass
+  752  vi dynamic-pvc.yaml
+  753  vi dynamic-pod.yaml
+  754  kubectl apply -f dynamic-pod.yaml 
+  755  kubectl get pods
+  756  kubectl delete -f dynamic-pod.yaml 
+  757  vi dynamic-pvc.yaml 
+  758  kubectl apply -f dynamic-pvc.yaml 
+  759  kubectl get pvc
+  760  kubectl delete -f dynamic-pvc.yaml 
+  761  kubectl get storageclass
+  762  kubectl delete storageclass ebs-sc
+  763  kubectl apply -f dynamicstorageclass.yaml 
+  764  kubectl get storageclass
+  765  vi static-pv.yaml 
+  766  kubectl apply -f static-pv.yaml 
+  767  kubectl get pv
+  768  kubectl delete -f static-pv.yaml 
+  769  clear
+  770  kubectl get storageclass
+  771  vi dynamic-pvc.yaml
+  772  kubectl apply -f dynamic-pvc.yaml 
+  773  kubectl get pvc
+  774  vi dynamic-pvc.yaml 
+  775  kubectl apply -f dynamic-pvc.yaml 
+  776  kubectl get pvc
+  777  kubectl delete -f dynamic-pvc.yaml 
+  778  kubectl get pvc
+  779  vi dynamic-pvc.yaml 
+  780  kubectl get pv
+  781  kubectl apply -f dynamic-pvc.yaml 
+  782  kubectl get pvc
+  783  kubectl apply -f dynamic-pod.yaml 
+  784  kubectl get pods
+  785  kubectl get pv
+  786  kubectl delete pod --al
+  787  kubectl delete pod --all
+  788  kubectl get pv
+  789  clear
+  790  kubectl get storageclass
+  791  kubectl get pvc
+  792  kubectl get pods
+  793  kubectl apply -f dynamic-pod.yaml 
+  794  kubectl get pods
+  795  kubectl delete pods app
+  796  kubectl delete -f dynamic-pvc.yaml 
+  797  clear
+  798  exit
+  799  clear
+  800  kubectl get pods
+  801  clear
+  802  kubectl get pods -owide
+  803  kubectl get pods
+  804  kubectl get sc
+  805  vi statefulset.yaml
+  806  kubectl apply -f statefulset.yaml 
+  807  kubectl get pods
+  808  kubectl get svc
+  809  kubectl get pvc
+  810  kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm
+  811  kubectl delete -f statefulset.yaml 
+  812  kubectl get pods
+  813  clear
+  814  exit
+  815  ls
+  816  clear
+  817  vi liveliness.yaml
+  818  kubectl apply -f liveliness.yaml 
+  819  kubectl get pods
+  820  kubectl descripe pod liveness-exec
+  821  kubectl describe pod liveness-exec
+  822  kubectl get pods
+  823  kubectl describe pod liveness-exec
+  824  kubectl delete -f liveliness.yaml 
+  825  kubectl get pods
+  826  kubectl apply -f liveliness.yaml 
+  827  kubectl get pods
+  828  kubectl describe pod liveness-exec
+  829  kubectl delete -f liveliness.yaml 
+  830  kubectl get pods
+  831  exit
+  832  kubectl get nodes
+  833  clear
+  834  kubectl get pods
+  835  ls
+  836  vi myfirstpod.yaml 
+  837  kubectl apply -f myfirstpod.yaml 
+  838  kubectl get pods -owide
+  839  kubectl get pods -n devdarshan -owide
+  840  vi deployment.yaml 
+  841  kubectl apply -f deployment.yaml 
+  842  kubectl get pods
+  843  kubectl get pods -n devdarshan
+  844  kubectl get pods -n devdarshan -owide
+  845  kubectl delete -f deployment.yaml 
+  846  kubectl delete -f myfirstpod.yaml 
+  847  exit
+  848  ls
+  849  kubectl get pods
+  850  kubectl get nodes
+  851  clear
+  852  kubectl apply -f liveliness.yaml 
+  853  kubectl get pods
+  854  kubectl describe pod liveness-exec
+  855  kubectl get pods
+  856  kubectl describe pod liveness-exec
+  857  kubectl get pods
+  858  kubectl delete -f liveliness.yaml 
+  859  cp liveliness.yaml readiness.yaml
+  860  vi readiness.yaml 
+  861  kubectl apply -f readiness.yaml 
+  862  kubectl get pods
+  863  kubectl delete -f readiness.yaml 
+  864  vi readiness.yaml 
+  865  kubectl apply -f readiness.yaml 
+  866  kubectl get pods
+  867  kubectl delete -f readiness.yaml 
+  868  clear
+  869  kubectl apply -f readiness.yaml 
+  870  kubectl get pods
+  871  kubectl describe pod readiness-exec
+  872  kubectl get pods
+  873  kubectl delete -f readiness.yaml 
+  874  vi readiness.yaml 
+  875  clear
+  876  vi readiness.yaml 
+  877  kubectl apply -f readiness.yaml 
+  878  kubectl get pods
+  879  kubectl describe pod readiness-exec
+  880  kubectl get pods
+  881  kubectl delete -f readiness.yaml 
+  882  exit
+  883  clear
+  884  ls
+  885  vi service.yaml 
+  886  vi myfirstpod.yaml 
+  887  kubectl get ep
+  888  exit
+  889  clear
+  890  cat /root/.docker/config.json
+  891  cat /root/.docker/config.json | base64
+  892  clear
+  893  kubectl get pods
+  894  kubectl get nodes
+  895  apt install aws-cli
+  896  snap install aws-cli
+  897  clear
+  898  apt install aws cli
+  899  apt install aws
+  900  apt install awscli
+  901  aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 889165067927.dkr.ecr.ap-northeast-1.amazonaws.com
+  902  cat /root/.docker/config.json.
+  903  cat /root/.docker/config.json
+  904  docker login -u ddarshi97 -p DevOps@979
+  905  docker login -u ddarshi97 -p devOps@979
+  906  docker login -u ddarshi97 -p Devops@979
+  907  aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 889165067927.dkr.ecr.ap-northeast-1.amazonaws.com
+  908  cat /root/.docker/config.json
+  909  docker pull  ddarshi97/tomcat:1.2
+  910  docker images
+  911  docker tag ddarshi97/tomcat:1.2 889165067927.dkr.ecr.ap-northeast-1.amazonaws.com/tomcat:1.2
+  912  docker push 889165067927.dkr.ecr.ap-northeast-1.amazonaws.com/tomcat:1.2
+  913  docker images
+  914  docker push 889165067927.dkr.ecr.ap-northeast-1.amazonaws.com/tomcat:1.2
+  915  vi secretacces.yaml
+  916  vi secretacces.yaml 
+  917  kubectl apply -f secretacces.yaml 
+  918  vi privateimagepod.yaml
+  919  vi myfirstpod.yaml 
+  920  vi nodeport.yaml 
+  921  vi privateimagepod.yaml
+  922  vi nodeport.yaml 
+  923  vi privateimagepod.yaml
+  924  kubectl apply -f privateimagepod.yaml 
+  925  kubectl get pods
+  926  kubectl describe pod private-reg
+  927  kubectl get svc
+  928  cat privateimagepod.yaml 
+  929  vi privateimagepod.yaml 
+  930  kubectl get pods
+  931  kubectl get pods -owide
+  932  kubectl get svc
+  933  exit
+  934  clear
+  935  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/aws/deploy.yaml
+  936  kubectl get pods
+  937  kubectl get all -n ingress-nginx
+  938  kubectl get svc
+  939  kubectl get svc -n ingress-nginx
+  940  kubectl get all -n ingress-nginx
+  941  kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/aws/deploy.yaml
+  942  clear
+  943  kubectl get nodes
+  944  kubectl get pods
+  945  kubectl delete -f privateimagepod.yaml 
+  946  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/aws/deploy.yaml
+  947  kubectl get all -n ingress-nginx
+  948  ls
+  949  vi privateimagepod.yaml 
+  950  cp privateimagepod.yaml tomcatpod.yaml
+  951  vi tomcatpod.yaml 
+  952  kubectl get secrets
+  953  kubectl create -f tomcatpod.yaml 
+  954  vi tomcat-ingress.yaml
+  955  kubectl delete -f tomcatpod.yaml 
+  956  vi tomcatpod.yaml 
+  957  kubectl apply -f tomcatpod.yaml 
+  958  vi tomcat-ingress.yaml
+  959  kubectl apply -f tomcat-ingress.yaml 
+  960  kubectl get ingress
+  961  vi jenkinspod.yaml
+  962  kubectl apply -f jenkinspod.yaml 
+  963  kubectl get svc
+  964  curl -v 10.100.146.34:8080/jenkins/
+  965  vi jenkins-ingress.yaml
+  966  clear
+  967  ls
+  968  vi jenkins-ingress.yaml
+  969  kubectl apply -f jenkins-ingress.yaml 
+  970  clear
+  971  kubectl get pods
+  972  kubectl get svc
+  973  kubectl get ingress
+  974  kubectl delete -f jenkins-ingress.yaml 
+  975  kubectl delete -f jenkinspod.yaml 
+  976  clear
+  977  vi jenkinspod.yaml 
+  978  kubectl get pods
+  979  clear
+  980  kubectl apply jenkinspod.yaml 
+  981  clear
+  982  kubectl apply -f jenkinspod.yaml 
+  983  kubectl get pods
+  984  kubectl apply -f jenkins-ingress.yaml 
+  985  kubectl get svc
+  986  kubectl get ingress
+  987  kubectl get ep
+  988  ls
+  989  vi deployment.yaml 
+  990  kubectl delete -f jenkins-ingress.yaml 
+  991  kubectl delete -f jenkinspod.yaml 
+  992  vi jenkinspod.yaml 
+  993  vi deployment.yaml 
+  994  vi jenkinspod.yaml 
+  995  kubectl apply -f jenkinspod.yaml 
+  996  kubectl apply -f jenkins-ingress.yaml 
+  997  kubectl get ingress
+  998  clear
+  999  kubectl get pods
+ 1000  kubectl get svc
+ 1001  curl -v 10.100.81.252:8080/jenkins/
+ 1002  kubectl get ingress
+ 1003  kubectl get ep
+ 1004  kubectl delete -f jenkins-ingress.yaml
+ 1005  kubectl delete -f tomcat-ingress.yaml
+ 1006  kubectl delete -f jenkinspod.yaml 
+ 1007  kubectl delete -f tomcatpod.yaml 
+ 1008  exit
+ 1009  ls
+ 1010  vi tomcatpod.yaml 
+ 1011  clear
+ 1012  exit
+ 1013  clear
+ 1014  ls
+ 1015  vi tomcatpod.yaml 
+ 1016  vi tomcat-ingress.yaml 
+ 1017  exit
+ 1018  clear
+ 1019  ls
+ 1020  history > history

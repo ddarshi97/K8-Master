@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+  name: tomcat
+  namespace: devdarshan
+spec:
+  selector:
+    matchLabels: 
+      app: tomcat
+  template:
+    metadata:
+      name: tomcat-jenkins
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: mytomcat
+        image: ddarshi97/tomcat:1.2
+        resources:
+          limits:
+            cpu: "1"
+            memory: 256Mi
+          requests:
+            cpu: 500m
+            memory: 128Mi
